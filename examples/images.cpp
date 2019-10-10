@@ -13,12 +13,12 @@ using cv::Mat;
 
 void help()
 {
-	printf("images SRC_FNAME DST_FNAME CLASS_COUNT THREAD_NUM\n");
+	printf("images SRC_FNAME DST_FNAME CLASS_COUNT THREAD_NUM MAX_ITERATE\n");
 }
 
 int main(const int argc, const char *argv[])
 {
-	if(argc != 5)
+	if(argc != 6)
 	{
 		help();
 
@@ -29,6 +29,7 @@ int main(const int argc, const char *argv[])
 	const string dst_fname = argv[2];
 	const size_t class_count = stoi(argv[3]);
 	const unsigned thread_num = stoi(argv[4]);
+	const unsigned max_iterate = stoi(argv[5]);
 	auto src = imread(src_fname, IMREAD_COLOR);
 	const size_t vector_size = 3;
 	const size_t vectors_count = src.rows * src.cols;
@@ -45,7 +46,7 @@ int main(const int argc, const char *argv[])
 		}
 
 	kmeans::normalize(data, 0, 255);
-	kmeans::kmeans_result && result = kmeans::kmeans(data, vectors_count, vector_size, class_count, thread_num);
+	kmeans::kmeans_result && result = kmeans::kmeans(data, vectors_count, vector_size, class_count, thread_num, max_iterate);
 
 	auto dst = Mat(src.size(), CV_8UC3);
 
